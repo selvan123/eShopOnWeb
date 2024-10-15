@@ -20,3 +20,19 @@ jobs:
     
     - name: Test with dotnet
       run: dotnet test ./eShopOnWeb.sln --configuration Release
+
+    - name: dotnet publish
+      run: dotnet publish ./eShopOnWeb.sln -c debug -o test/myapp
+  deploy:
+    runs-on: windows-latest
+    needs: build
+#    environment:
+#      name: 'Production'
+#      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: test/myapp
+    
