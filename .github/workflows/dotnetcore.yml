@@ -22,7 +22,16 @@ jobs:
       run: dotnet test ./eShopOnWeb.sln --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish ./eShopOnWeb.sln -c debug -o test/myapp
+      run: dotnet publish ./eShopOnWeb.sln -c Release -o release
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.4.3
+      with:
+          # Artifact name
+          name: Application_Artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: /home/runner/work/eShopOnWeb/eShopOnWeb/release
+            
   deploy:
     runs-on: windows-latest
     needs: build
